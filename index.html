@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>День Республики Казахстан — Проект студента</title>
+
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- AOS (Animate On Scroll) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --blue-1: #0077b6;
+    --blue-2: #00aaff;
+    --gold: #ffd700;
+    --glass: rgba(255,255,255,0.65);
+    --accent: linear-gradient(90deg, var(--blue-2), #00d4ff 60%, var(--gold));
+  }
+
+  *{box-sizing: border-box;font-family: 'Montserrat', sans-serif;}
+
+  body{
+    background: linear-gradient(180deg,#eaf7ff 0%, #f8fdff 100%);
+    color: #04263b;
+    -webkit-font-smoothing:antialiased;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  .navbar {
+    backdrop-filter: blur(6px);
+    background: rgba(255,255,255,0.55);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .navbar-brand strong { background: var(--accent); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-size:200% ; animation: grad 6s linear infinite; }
+  @keyframes grad { 0%{background-position:0%}100%{background-position:200%} }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    height: 560px;
+    overflow: hidden;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    box-shadow: 0 20px 60px rgba(3,59,107,0.12);
+  }
+
+  .hero .hero-media{
+    position:absolute; inset:0;
+    background-image: url("https://i.pinimg.com/736x/3d/d2/99/3dd299501063948f7d560df38103e63f.jpg");
+    background-size: cover;
+    background-position: center;
+    filter: saturate(1.05) contrast(1.02) brightness(0.62);
+    transform: scale(1.08);
+    transition: transform 12s linear;
+    will-change: transform;
+  }
+
+  .hero:hover .hero-media{ transform: scale(1.12); }
+
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(0,40,80,0.15) 10%, rgba(0,20,40,0.45) 70%);
+    pointer-events:none;
+  }
+
+  .hero-container{
+    position:relative;
+    z-index:2;
+    height:100%;
+    display:flex;
+    align-items:center;
+  }
+
+  .hero-badge{
+    display:inline-block;
+    padding:8px 14px;
+    border-radius:999px;
+    background: linear-gradient(90deg, rgba(255,215,0,0.12), rgba(0,170,255,0.12));
+    color:var(--gold);
+    font-weight:700;
+    border: 1px solid rgba(255,215,0,0.12);
+    backdrop-filter: blur(4px);
+  }
+
+  .hero-title{
+    color: #fff;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.02;
+    font-weight:800;
+    text-shadow: 0 8px 40px rgba(0,0,0,0.45);
+    margin-bottom:8px;
+  }
+
+  .hero-sub{
+    color: rgba(255,255,255,0.9);
+    font-weight:400;
+    font-size: 1.05rem;
+  }
+
+  /* CARDS */
+  .card-ghost {
+    background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.82));
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(3,59,107,0.06);
+    transition: transform .35s cubic-bezier(.2,.9,.2,1), box-shadow .35s;
+  }
+  .card-ghost:hover{ transform: translateY(-8px); box-shadow: 0 22px 50px rgba(3,59,107,0.12); }
+
+  .accent-line {
+    height:4px;
+    border-radius:4px;
+    background: var(--accent);
+    margin-top:10px;
+  }
+
+  /* INFO TABLE */
+  .table-modern {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(3,59,107,0.06);
+  }
+  .table-modern thead th {
+    background: linear-gradient(90deg,#e6f8ff99,#fff0);
+    color: #02325f;
+    font-weight:600;
+    border-bottom: none;
+    padding: 18px;
+  }
+  .table-modern tbody tr td{
+    padding: 16px 18px;
+    vertical-align: middle;
+    border-top: 1px solid rgba(3,59,107,0.04);
+  }
+
+  /* ICON CIRCLES */
+  .icon-circle{
+    width:64px; height:64px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.8));
+    box-shadow: 0 8px 20px rgba(3,59,107,0.06);
+    font-size: 1.4rem; color: var(--blue-1);
+  }
+
+  /* FOOTER */
+  footer{
+    margin-top:60px;
+    background: linear-gradient(90deg,#003a64,#005f9e);
+    color:#fff; padding:28px 0; border-radius:12px;
+  }
+
+  /* RESPONSIVE tweaks */
+  @media (max-width: 767px){
+    .hero { height:420px; border-radius:0; }
+    .hero-title{ font-size: 28px; }
+  }
+
+  /* small helpers */
+  .muted { color: #6b7c89; font-size: .95rem; }
+
+  /* small animated sparkle for flag */
+  .sparkle {
+    position:absolute; width:18px; height:18px; border-radius:50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,215,0,0.9) 50%, transparent 60%);
+    filter: blur(3px); transform: translate(-50%,-50%) scale(.9);
+    animation: sparkleAnim 2.6s ease-in-out infinite;
+    box-shadow: 0 6px 18px rgba(255,215,0,0.22);
+  }
+  @keyframes sparkleAnim{ 0%{opacity:0.2; transform: translate(-50%,-50%) scale(.7)} 50%{opacity:1; transform: translate(-50%,-50%) scale(1.15)} 100%{opacity:0.2; transform: translate(-50%,-50%) scale(.7)} }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+      <img src="https://i.pinimg.com/736x/3d/d2/99/3dd299501063948f7d560df38103e63f.jpg" alt="kz" width="36" style="border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.12)">
+      <span><strong>День Республики</strong></span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="#about">Введение</a></li>
+        <li class="nav-item"><a class="nav-link" href="#symbols">Символика</a></li>
+        <li class="nav-item"><a class="nav-link" href="#quotes">Цитаты</a></li>
+        <li class="nav-item ms-3"><a class="btn btn-outline-primary btn-sm" href="#contact">Связаться</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero mb-5">
+  <div class="hero-media" aria-hidden="true"></div>
+  <div class="container hero-container h-100">
+    <div class="row w-100 align-items-center">
+      <div class="col-lg-7 text-white" data-aos="fade-right">
+        <span class="hero-badge">25 октября — День Республики</span>
+        <h1 class="hero-title mt-3">День Республики Казахстан</h1>
+        <p class="hero-sub mb-4">Учебный проект студента — красивая презентация символики и истории. Современный дизайн, анимации и адаптивность.</p>
+        <div class="d-flex gap-3">
+          <a href="#symbols" class="btn btn-warning btn-lg shadow-sm" style="color:#07385a;font-weight:700;">Посмотреть символы</a>
+          <a href="#about" class="btn btn-outline-light btn-lg shadow" style="border-color: rgba(255,255,255,0.25);">Читать далее</a>
+        </div>
+      </div>
+
+      <div class="col-lg-5 d-none d-lg-block" data-aos="zoom-in">
+        <!-- Premium card -->
+        <div class="card card-ghost p-4 ms-auto" style="max-width:380px;">
+          <div class="d-flex align-items-center gap-3">
+            <div class="icon-circle">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.39 4.84L19 8.17l-3 2.92.71 4.1L12 13.77 7.29 15.2 8 11.1 5 8.17l4.61-.33L12 2z" fill="#00aaff"/></svg>
+            </div>
+            <div>
+              <div class="muted">Проект</div>
+              <div style="font-weight:700">Учебная работа</div>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <div class="muted mb-2">Ключевые цифры</div>
+            <div class="d-flex gap-2">
+              <div class="flex-fill text-center py-2" style="border-right:1px solid rgba(3,59,107,0.04)">
+                <div style="font-weight:800;font-size:1.2rem">25</div>
+                <div class="muted">Октября</div>
+              </div>
+              <div class="flex-fill text-center py-2">
+                <div style="font-weight:800;font-size:1.2rem">2025</div>
+                <div class="muted">Год проекта</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accent-line mt-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="container">
+
+  <!-- TWO-COLUMN INFO + CARDS -->
+  <section class="mb-5" id="about" data-aos="fade-up">
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <h3>Введение</h3>
+        <p>День Республики Казахстан отмечается 25 октября и является важным государственным праздником. Этот день символизирует путь к государственности, независимости и единству народа. В проекте собраны символы, цитаты и краткие факты для учебной презентации.</p>
+
+        <div class="mt-4">
+          <h5 class="mb-3">Информация</h5>
+          <div class="table-modern">
+            <table class="table mb-0">
+              <thead>
+                <tr>
+                  <th>Пункт</th>
+                  <th>Детали</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Дата праздника</td>
+                  <td>25 октября</td>
+                </tr>
+                <tr>
+                  <td>Тема проекта</td>
+                  <td>Символика и образование</td>
+                </tr>
+                <tr>
+                  <td>Автор</td>
+                  <td>Алтынник Никита, группа 403</td>
+                </tr>
+                <tr>
+                  <td>Стиль</td>
+                  <td>Современный, адаптивный, презентационный</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-5" data-aos="fade-left">
+        <div class="card card-ghost p-4 h-100">
+          <div class="d-flex align-items-start gap-3">
+            <img src="https://memi.klev.club/uploads/posts/2024-12/memi-klev-club-afy9-p-memi-anime-kazakhstan-3.jpg" alt="flag" style="width:120px;border-radius:12px;object-fit:cover;box-shadow:0 12px 30px rgba(3,59,107,0.08)">
+            <div>
+              <h5 style="margin-bottom:6px;">Флаг Республики Казахстан</h5>
+              <p class="muted mb-2">Голубой — небо и мир; золото — солнце и свобода</p>
+              <div class="d-flex gap-2">
+                <a class="btn btn-sm btn-outline-primary" href="#" onclick="downloadImg()">Скачать</a>
+                <a class="btn btn-sm btn-primary" href="#symbols">Подробнее</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <div class="d-flex gap-2">
+              <div class="flex-fill text-center">
+                <div style="font-weight:700;font-size:1.35rem">3</div>
+                <div class="muted">Основные символы</div>
+              </div>
+              <div class="flex-fill text-center">
+                <div style="font-weight:700;font-size:1.35rem">1</div>
+                <div class="muted">Нация</div>
+              </div>
+              <div class="flex-fill text-center">
+                <div style="font-weight:700;font-size:1.35rem">∞</div>
+                <div class="muted">Культура</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYMBOLS GRID -->
+  <section id="symbols" class="mb-5" data-aos="fade-up">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3>Символика страны</h3>
+      <div class="muted">Краткий обзор</div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Card 1 -->
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="50">
+        <div class="card card-ghost p-4 h-100">
+          <div class="d-flex align-items-center gap-3">
+            <div class="icon-circle"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.39 4.84L19 8.17l-3 2.92.71 4.1L12 13.77 7.29 15.2 8 11.1 5 8.17l4.61-.33L12 2z" fill="#00aaff"/></svg></div>
+            <div>
+              <h5 class="mb-1">Флаг</h5>
+              <div class="muted">Символ мира, солнца и орла.</div>
+            </div>
+          </div>
+          <div class="mt-3"><img src="https://www.shutterstock.com/shutterstock/videos/23474986/thumb/1.jpg?ip=x480" alt="" style="width:100%;border-radius:10px;object-fit:cover;height:160px;box-shadow:0 10px 30px rgba(3,59,107,0.06)"></div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="120">
+        <div class="card card-ghost p-4 h-100">
+          <div class="d-flex align-items-center gap-3">
+            <div class="icon-circle">🏛️</div>
+            <div>
+              <h5 class="mb-1">Герб</h5>
+              <div class="muted">Шанырак — дом и единство.</div>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div style="height:160px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:linear-gradient(180deg,#f7fbff,#fff);box-shadow:inset 0 1px 0 rgba(255,255,255,0.6)">
+              <img src="https://avatars.mds.yandex.net/i?id=1fdb6c56c9f8e1357bf8c8f736db793b1ab01e27-4055263-images-thumbs&n=13" alt="emblem" style="max-height:130px;object-fit:contain">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="190">
+        <div class="card card-ghost p-4 h-100">
+          <div class="d-flex align-items-center gap-3">
+            <div class="icon-circle">🎶</div>
+            <div>
+              <h5 class="mb-1">Гимн</h5>
+              <div class="muted">Гордость и национальная память.</div>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div style="height:160px;border-radius:10px;background:linear-gradient(90deg,#00aaff33,#ffd70033);display:flex;align-items:center;justify-content:center">
+              <div class="text-center">
+                <div style="font-weight:700;font-size:1.1rem">Национальный гимн</div>
+                <div class="muted" style="font-size:.9rem">Слова и музыка — история</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTES -->
+  <section id="quotes" class="mb-5" data-aos="fade-up">
+    <h3>Цитаты о Родине и образовании</h3>
+    <div class="row g-4 mt-3">
+      <div class="col-md-4" data-aos="flip-left" data-aos-delay="60">
+        <blockquote class="p-3">«Ученье — свет, а неученье — тьма.»<footer class="mt-2 muted">— Народная пословица</footer></blockquote>
+      </div>
+      <div class="col-md-4" data-aos="flip-left" data-aos-delay="120">
+        <blockquote class="p-3">«Любовь к Родине начинается с любви к своей школе.»<footer class="mt-2 muted">— Абай Кунанбаев</footer></blockquote>
+      </div>
+      <div class="col-md-4" data-aos="flip-left" data-aos-delay="180">
+        <blockquote class="p-3">«Чтобы строить будущее Казахстана, нужно начинать с образования.»<footer class="mt-2 muted">— Нурсултан Назарбаев</footer></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT + SMALL TABLE -->
+  <section id="contact" class="mb-5" data-aos="fade-up">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-6">
+        <h3>Контакт и данные</h3>
+        <p class="muted">📞 7707 978 7027  
+		✈️ Telegram: @drop2r.</p>
+
+        <form class="row g-3">
+          <div class="col-12">
+            <input class="form-control form-control-lg" placeholder="Твоё имя (например: Никита)" />
+          </div>
+          <div class="col-12">
+            <input class="form-control" placeholder="Сообщение / комментарий" />
+          </div>
+          <div class="col-12">
+            <button class="btn btn-primary btn-lg">Отправить</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card card-ghost p-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <strong>Краткая таблица</strong>
+              <div class="muted">Факты о празднике</div>
+            </div>
+            <div class="muted">Обновлено 2025</div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-borderless mb-0">
+              <tbody>
+                <tr>
+                  <td style="width:2rem"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#00aaff" /></svg></td>
+                  <td><strong>Дата</strong></td>
+                  <td class="text-end muted">25 окт.</td>
+                </tr>
+                <tr>
+                  <td><svg width="20" height="20" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" fill="#ffd700" /></svg></td>
+                  <td><strong>Тематика</strong></td>
+                  <td class="text-end muted">Государственность</td>
+                </tr>
+                <tr>
+                  <td><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2l3 6 6 .5-4.5 3.7L18 20l-6-3.5L6 20l1.5-7.8L3 8.5 9 8z" fill="#0077b6"/></svg></td>
+                  <td><strong>Автор</strong></td>
+                  <td class="text-end muted">Алтынник Никита</td>
+                </tr>
+                <tr>
+                  <td><svg width="20" height="20" viewBox="0 0 24 24"><path d="M4 12h16v2H4z" fill="#6b7c89"/></svg></td>
+                  <td><strong>Статус</strong></td>
+                  <td class="text-end muted">Готово (версия 1)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="mt-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <div style="font-weight:700">© 2025 — Учебный проект: День Республики Казахстан</div>
+        <div class="muted">Дизайн: современный / адаптивный / премиум</div>
+      </div>
+      <div class="col-md-6 text-md-end mt-3 mt-md-0">
+        <a class="text-white me-3" href="#">Политика</a>
+        <a class="text-white me-3" href="#">Контакты</a>
+        <a class="text-white" href="#">Скачать</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- sparkle (subtle) placed near flag image on load -->
+<div id="sparkle" style="position:fixed;left:68%;top:38%;pointer-events:none;z-index:9999;opacity:0;">
+  <div class="sparkle"></div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+<script>
+  // AOS init
+  AOS.init({ duration:800, once:true, offset:120 });
+
+  // Small sparkle entrance
+  (function(){
+    const s = document.getElementById('sparkle');
+    setTimeout(()=>{ s.style.opacity = 1; }, 700);
+    // hide after a while
+    setTimeout(()=>{ s.style.opacity = 0; }, 4500);
+  })();
+
+  // Download image helper (simple)
+  function downloadImg(){
+    const url = "https://media-hel3-1.cdn.whatsapp.net/v/t61.24694-24/565825371_1353543766349316_4984682022170370048_n.jpg?ccb=11-4&oh=01_Q5Aa2wGk6likfh61FUBpr2gG5D7D27icLC49QQKF6ifZbC4dhQ&oe=6906EF60&_nc_sid=5e03e0&_nc_cat=106";
+    const a = document.createElement('a'); a.href = url; a.download = 'flag-kz.jpg'; document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a.nav-link').forEach(a=>{
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      const tgt = document.querySelector(this.getAttribute('href'));
+      if(tgt) tgt.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+</script>
+
+</body>
+</html>
